@@ -77,6 +77,7 @@ public class LoginFragment extends Fragment {
                     if (!found) {
                         String KEY = mRef.push().getKey();
                         User user = new User(KEY, editText_name.getText().toString());
+                        Constant.CURRENT_USER = user;
                         mRef.child(KEY).setValue(user);
                     }
                 }
@@ -97,7 +98,7 @@ public class LoginFragment extends Fragment {
     private View initializeViewElements(View view){
         editText_group_id = view.findViewById(R.id.editText_login_group_id);
         editText_name = view.findViewById(R.id.editText_login_name);
-        button_login = view.findViewById(R.id.button_admin_login);
+        button_login = view.findViewById(R.id.button_login);
         return view;
     }
 

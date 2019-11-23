@@ -1,9 +1,11 @@
 package com.example.myplanningpokeruser.Utils;
 
 import com.example.myplanningpokeruser.Model.Groups;
+import com.example.myplanningpokeruser.Model.Questions;
+import com.example.myplanningpokeruser.Model.User;
 
 public class Constant {
-    public static String CURRENT_USER;
+    public static User CURRENT_USER;
     public static final String ADMIN_NAMES = "admin_names";
     public static final String GROUPS = "groups";
     public static final String GROUP_ID = "group_id";
@@ -17,5 +19,8 @@ public class Constant {
     public static final String ACTIVE_TIME = "active_time";
     public static final String USER = "users";
     public static final String KEY = "key";
+    public static final String ANSWER = "answer";
     public static Groups ENTERED_GROUP;
+    public static Questions SELECTED_QUESTION;
+    public static String CHOSEN_ELEMENT;
 }

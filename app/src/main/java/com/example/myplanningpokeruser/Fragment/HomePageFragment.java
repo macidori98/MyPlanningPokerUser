@@ -17,6 +17,7 @@ import com.example.myplanningpokeruser.Interface.OnItemClickListener;
 import com.example.myplanningpokeruser.Model.Questions;
 import com.example.myplanningpokeruser.R;
 import com.example.myplanningpokeruser.Utils.Constant;
+import com.example.myplanningpokeruser.Utils.FragmentNavigation;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -84,7 +85,13 @@ public class HomePageFragment extends Fragment {
                 mAdapter.setOnClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-                        Toast.makeText(getContext(), String.valueOf(position) ,Toast.LENGTH_SHORT).show();
+                        if (questionsList.get(position).isActive()){
+                            Constant.SELECTED_QUESTION = questionsList.get(position);
+                            Toast.makeText(getContext(), "active" ,Toast.LENGTH_SHORT).show();
+                            FragmentNavigation.getInstance(getContext()).replaceFragment(new AnswerFragment(), R.id.fragment_content);
+                        } else {
+                            Toast.makeText(getContext(), "is not active you cant answer" ,Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 recyclerView_home_page_group.setAdapter(mAdapter);

@@ -20,6 +20,9 @@
     <string name="active">Active</string>
     <string name="inactive">Inactive</string>
 
+    <string name="submit">Submit</string>
+    <string name="answer">Your answer is:</string>
+
     <string name="colorPrimary">#008577</string>
     <string name="colorPrimaryDark">#00574B</string>
     <string name="colorAccent">#D81B60</string>
