@@ -18,10 +18,15 @@
     <string name="question_added">Question added</string>
     <string name="add_question">Enter question</string>
     <string name="active">Active</string>
-    <string name="inactive">Inactive</string>
+    <string name="inactive">Inactive, you can not answer</string>
 
     <string name="submit">Submit</string>
     <string name="answer">Your answer is:</string>
+    <string name="answer_sent">Answer sent</string>
+    <string name="answered">Answered</string>
+    <string name="answer_not_sent">Answer not sent</string>
+    <string name="time_up">Time is up!</string>
+    <string name="choose_element">You have to choose an element!</string>
 
     <string name="colorPrimary">#008577</string>
     <string name="colorPrimaryDark">#00574B</string>

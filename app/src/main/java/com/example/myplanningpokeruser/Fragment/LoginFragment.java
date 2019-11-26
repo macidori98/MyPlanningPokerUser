@@ -71,6 +71,11 @@ public class LoginFragment extends Fragment {
                     for (DataSnapshot users : dataSnapshot.getChildren()){
                         if (users.child(Constant.NAME).getValue().toString().equals(editText_name.getText().toString())){
                             found = true;
+
+                            String id = users.child(Constant.ID).getValue().toString();
+                            String name = users.child(Constant.NAME).getValue().toString();
+                            Constant.CURRENT_USER = new User(id, name);
+
                             break;
                         }
                     }

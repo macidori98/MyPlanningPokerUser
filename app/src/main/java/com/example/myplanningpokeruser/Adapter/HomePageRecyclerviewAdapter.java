@@ -14,6 +14,7 @@ import com.example.myplanningpokeruser.Model.Questions;
 import com.example.myplanningpokeruser.Interface.OnItemClickListener;
 import com.example.myplanningpokeruser.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomePageRecyclerviewAdapter extends RecyclerView.Adapter<HomePageRecyclerviewAdapter.MyViewHolder> {
@@ -21,10 +22,14 @@ public class HomePageRecyclerviewAdapter extends RecyclerView.Adapter<HomePageRe
     private Context context;
     private List<Questions> questionsList;
     private OnItemClickListener listener;
+    private ArrayList<HomePageRecyclerviewAdapter.MyViewHolder> holders;
+    private List<String> answered_question_ids;
 
-    public HomePageRecyclerviewAdapter(Context context, List<Questions> questionsList){
+    public HomePageRecyclerviewAdapter(Context context, List<Questions> questionsList, List<String> answered_question_ids){
         this.context = context;
         this.questionsList = questionsList;
+        this.holders = new ArrayList<>();
+        this.answered_question_ids = answered_question_ids;
     }
 
     @NonNull
@@ -38,14 +43,30 @@ public class HomePageRecyclerviewAdapter extends RecyclerView.Adapter<HomePageRe
     @Override
     public void onBindViewHolder(@NonNull HomePageRecyclerviewAdapter.MyViewHolder holder, int position) {
         holder.textView_question.setText(questionsList.get(position).getQuestion());
-        if (questionsList.get(position).isActive()){
+
+        if (answered_question_ids.contains(questionsList.get(position).getId())){
+            holder.textView_active.setText(R.string.answered);
+            holder.textView_active.setTextColor(ContextCompat.getColor(context,R.color.red));
+            holder.itemView.setOnClickListener(null);
+        } else if (questionsList.get(position).isActive()){
             holder.textView_active.setText(R.string.active);
-            holder.textView_active.setTextColor(ContextCompat.getColor(context,R.color.colorPrimary));
+            holder.textView_active.setTextColor(ContextCompat.getColor(context,R.color.green));
         } else {
             holder.textView_active.setText(R.string.inactive);
-            holder.textView_active.setTextColor(ContextCompat.getColor(context,R.color.colorAccent));
-
+            holder.textView_active.setTextColor(ContextCompat.getColor(context,R.color.red));
+            holder.itemView.setOnClickListener(null);
         }
+
+        holders.add(holder);
+    }
+
+    public void QuestionAnswered(int position){
+        holders.get(position).textView_active.setText(R.string.answered);
+    }
+
+    public void ResetList(){
+        this.questionsList.clear();
+        this.answered_question_ids.clear();
     }
 
     @Override
@@ -61,12 +82,13 @@ public class HomePageRecyclerviewAdapter extends RecyclerView.Adapter<HomePageRe
             super(itemView);
             textView_active = itemView.findViewById(R.id.textView_home_page_active);
             textView_question = itemView.findViewById(R.id.textView_home_page_question);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (listener != null){
+                    if (listener != null) {
                         int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
+                        if (position != RecyclerView.NO_POSITION) {//&& textView_active.getText().toString().equals(R.string.active)){
                             listener.onItemClick(position);
                         }
                     }

@@ -9,6 +9,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.myplanningpokeruser.Fragment.AnswerFragment;
+import com.example.myplanningpokeruser.Fragment.HomePageFragment;
+import com.example.myplanningpokeruser.Fragment.LoginFragment;
 import com.example.myplanningpokeruser.MainActivity;
 import com.example.myplanningpokeruser.R;
 
@@ -69,21 +72,20 @@ public class FragmentNavigation {
     public void onBackPressed(MainActivity activity) {
 
         // If Home page is open: double press exit:
-        /*if( getCurrentFragment(mMainActivityFragmentContainer) instanceof LoginFragment) {
+        if( getCurrentFragment(mMainActivityFragmentContainer) instanceof LoginFragment) {
             doublePressExit(activity);
             return;
         }
 
-        /*if( getCurrentFragment(mMainActivityFragmentContainer) instanceof RegistrationFragment) {
+        if( getCurrentFragment(mMainActivityFragmentContainer) instanceof HomePageFragment) {
             popBackstack();
             return;
         }
 
-        if( getCurrentFragment(mMainActivityFragmentContainer) instanceof HideTreasureFragment
-                || getCurrentFragment(mMainActivityFragmentContainer) instanceof ClaimTreasureFragment) {
-            showHomeFragment();
+        if( getCurrentFragment(mMainActivityFragmentContainer) instanceof AnswerFragment) {
+            popBackstack();
             return;
-        }*/
+        }
 
         // Other cases:
         activity.moveTaskToBack(true);

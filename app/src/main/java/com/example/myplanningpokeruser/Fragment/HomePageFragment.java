@@ -37,20 +37,21 @@ public class HomePageFragment extends Fragment {
     private LinearLayoutManager linearLayoutManager;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mRef;
+    private DatabaseReference answerRef;
     private List<Questions> questionsList;
+    private List<String> answered_question_ids;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.home_page_fragment, container, false);
-
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        recyclerView_home_page_group = view.findViewById(R.id.recyclerview_home_page_groups);
         mDatabase = FirebaseDatabase.getInstance();
         mRef = mDatabase.getReference(Constant.QUESTIONS);
+        answerRef = mDatabase.getReference(Constant.ANSWER);
         questionsList = new ArrayList<>();
-        getQuestions();
+        answered_question_ids = new ArrayList<>();
+
+        getUserAnswers();
 
         return view;
     }
@@ -58,43 +59,25 @@ public class HomePageFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recyclerView_home_page_group.setLayoutManager(linearLayoutManager);
-
     }
 
-    private void getQuestions(){
-        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    private void getUserAnswers(){
+        answerRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    if (snapshot.child(Constant.GROUP_ID).getValue().toString().equals(Constant.ENTERED_GROUP.getId())){
-                        boolean active = Boolean.valueOf(snapshot.child(Constant.ACTIVE).getValue().toString());
-                        String date_from = snapshot.child(Constant.DATE_FROM).getValue().toString();
-                        String date_until = snapshot.child(Constant.DATE_UNTIL).getValue().toString();
-                        String group_id = snapshot.child(Constant.GROUP_ID).getValue().toString();
-                        String id = snapshot.child(Constant.ID).getValue().toString();
-                        String question = snapshot.child(Constant.QUESTION).getValue().toString();
-
-                        Questions questions = new Questions(id,group_id,question,date_from, date_until, active);
-
-                        questionsList.add(questions);
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    if (snapshot.child(Constant.USER_ID).getValue().toString()
+                    .equals(Constant.CURRENT_USER.getId())){
+                        answered_question_ids.add(snapshot.child(Constant.QUESTION_ID).getValue().toString());
                     }
                 }
 
-                mAdapter = new HomePageRecyclerviewAdapter(getContext(), questionsList);
-                mAdapter.setOnClickListener(new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        if (questionsList.get(position).isActive()){
-                            Constant.SELECTED_QUESTION = questionsList.get(position);
-                            Toast.makeText(getContext(), "active" ,Toast.LENGTH_SHORT).show();
-                            FragmentNavigation.getInstance(getContext()).replaceFragment(new AnswerFragment(), R.id.fragment_content);
-                        } else {
-                            Toast.makeText(getContext(), "is not active you cant answer" ,Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-                recyclerView_home_page_group.setAdapter(mAdapter);
+                getQuestions();
             }
 
             @Override
@@ -103,5 +86,66 @@ public class HomePageFragment extends Fragment {
             }
         });
     }
+
+    private void getQuestions(){
+
+        mRef.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    if (snapshot.child(Constant.GROUP_ID).getValue().toString().equals(Constant.ENTERED_GROUP.getId())){
+                        boolean found = false;
+                        boolean active = Boolean.valueOf(snapshot.child(Constant.ACTIVE).getValue().toString());
+                        int active_time = Integer.valueOf(snapshot.child(Constant.ACTIVE_TIME_SECONDS).getValue().toString());
+                        String group_id = snapshot.child(Constant.GROUP_ID).getValue().toString();
+                        String id = snapshot.child(Constant.ID).getValue().toString();
+                        String question = snapshot.child(Constant.QUESTION).getValue().toString();
+
+                        Questions questions = new Questions(id,group_id,question, active, active_time);
+
+                        for (int i = 0; i < questionsList.size(); ++i){
+                            if (questionsList.get(i).getId().equals(questions.getId())){
+                                questionsList.get(i).setActive(questions.isActive());
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found){
+                            questionsList.add(questions);
+                        }
+                    }
+                }
+                linearLayoutManager = new LinearLayoutManager(getContext());
+                linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+                recyclerView_home_page_group = view.findViewById(R.id.recyclerview_home_page_groups);
+                recyclerView_home_page_group.setLayoutManager(linearLayoutManager);
+                mAdapter = new HomePageRecyclerviewAdapter(getContext(), questionsList, answered_question_ids);
+                mAdapter.setOnClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        if (questionsList.get(position).isActive()){
+                            Constant.SELECTED_QUESTION = questionsList.get(position);
+                            //Toast.makeText(getContext(), R.string.active ,Toast.LENGTH_SHORT).show();
+                            FragmentNavigation.getInstance(getContext()).replaceFragment(new AnswerFragment(), R.id.fragment_content);
+
+                        } else {
+                            Toast.makeText(getContext(), R.string.inactive ,Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                recyclerView_home_page_group.setAdapter(mAdapter);
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
 
 }

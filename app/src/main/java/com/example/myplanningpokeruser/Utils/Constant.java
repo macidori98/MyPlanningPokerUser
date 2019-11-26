@@ -20,7 +20,12 @@ public class Constant {
     public static final String USER = "users";
     public static final String KEY = "key";
     public static final String ANSWER = "answer";
+    public static final String USER_ID = "user_id";
+    public static final String QUESTION_ID = "question_id";
     public static Groups ENTERED_GROUP;
     public static Questions SELECTED_QUESTION;
-    public static String CHOSEN_ELEMENT;
+    public static String CHOSEN_ELEMENT="";
+    public static final String ACTIVE_TIME_SECONDS = "active_time_seconds";
+    public static int TIME;
+
 }

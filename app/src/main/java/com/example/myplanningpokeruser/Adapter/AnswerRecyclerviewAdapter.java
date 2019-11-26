@@ -1,6 +1,7 @@
 package com.example.myplanningpokeruser.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.example.myplanningpokeruser.R;
 import com.example.myplanningpokeruser.Utils.Constant;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.collection.LLRBNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,15 +24,18 @@ public class AnswerRecyclerviewAdapter extends RecyclerView.Adapter<AnswerRecycl
 
     private List<String> mData; // = {"0", "1", "2", "3", "5", "8", "13", "20", "40", "100", "Coffee"};
     private LayoutInflater mInflater;
+    private TextView users_answer;
     private OnItemClickListener mClickListener;
-    private int selectedItem;
     private Context context;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mRef;
+    private List<AnswerRecyclerviewAdapter.MyViewHolder> holders;
 
-    public AnswerRecyclerviewAdapter(Context context, List<String> data){
+    public AnswerRecyclerviewAdapter(Context context, List<String> data, TextView users_answer){
         this.context = context;
         this.mData = data;
+        this.users_answer = users_answer;
+        this.holders = new ArrayList<>();
     }
 
     @NonNull
@@ -42,6 +47,7 @@ public class AnswerRecyclerviewAdapter extends RecyclerView.Adapter<AnswerRecycl
 
     @Override
     public void onBindViewHolder(@NonNull AnswerRecyclerviewAdapter.MyViewHolder holder, int position) {
+        holders.add(holder);
         holder.textView_element.setText(mData.get(position));
         holder.bind(position);
     }
@@ -64,17 +70,22 @@ public class AnswerRecyclerviewAdapter extends RecyclerView.Adapter<AnswerRecycl
             textView_element.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Constant.CHOSEN_ELEMENT = mData.get(position);
-                    selectedItem = position;
-                    textView_element.setBackgroundColor(context.getResources().getColor(R.color.blue));
+                    for (AnswerRecyclerviewAdapter.MyViewHolder holder : holders) {
+                        holder.textView_element.setBackgroundColor(Color.WHITE);
+                    }
+
+                    holders.get(position).textView_element.setBackgroundColor(Color.GREEN);
+                        Constant.CHOSEN_ELEMENT = mData.get(position);
+                        String text = "Your answer is: ".concat(mData.get(position));
+                        users_answer.setText(text);
                 }
             });
         }
 
-
         @Override
         public void onItemClick(int position) {
             if (mClickListener != null) mClickListener.onItemClick( getAdapterPosition());
+
         }
     }
 }
