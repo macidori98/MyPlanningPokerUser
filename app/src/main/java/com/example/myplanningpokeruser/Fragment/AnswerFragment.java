@@ -99,7 +99,7 @@ public class AnswerFragment extends Fragment {
         getView().setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                if (i == KeyEvent.KEYCODE_BACK){
+                if (i == KeyEvent.KEYCODE_BACK && keyEvent.getAction() == KeyEvent.ACTION_DOWN){
                     countDownTimer.cancel();
                     String KEY = mRef.push().getKey();
                     String question_id = Constant.SELECTED_QUESTION.getId();
@@ -153,12 +153,10 @@ public class AnswerFragment extends Fragment {
 
                         }
                     });
-
+                } else {
+                    Toast.makeText(getContext(), R.string.choose_element, Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(getContext(), R.string.choose_element, Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-
 }

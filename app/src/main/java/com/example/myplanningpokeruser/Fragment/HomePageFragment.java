@@ -127,6 +127,7 @@ public class HomePageFragment extends Fragment {
                         if (questionsList.get(position).isActive()){
                             Constant.SELECTED_QUESTION = questionsList.get(position);
                             //Toast.makeText(getContext(), R.string.active ,Toast.LENGTH_SHORT).show();
+                            Constant.CHOSEN_ELEMENT = "";
                             FragmentNavigation.getInstance(getContext()).replaceFragment(new AnswerFragment(), R.id.fragment_content);
 
                         } else {

@@ -13,9 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myplanningpokeruser.Interface.OnItemClickListener;
 import com.example.myplanningpokeruser.R;
 import com.example.myplanningpokeruser.Utils.Constant;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.collection.LLRBNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +20,9 @@ import java.util.List;
 public class AnswerRecyclerviewAdapter extends RecyclerView.Adapter<AnswerRecyclerviewAdapter.MyViewHolder> {
 
     private List<String> mData; // = {"0", "1", "2", "3", "5", "8", "13", "20", "40", "100", "Coffee"};
-    private LayoutInflater mInflater;
     private TextView users_answer;
     private OnItemClickListener mClickListener;
     private Context context;
-    private FirebaseDatabase mDatabase;
-    private DatabaseReference mRef;
     private List<AnswerRecyclerviewAdapter.MyViewHolder> holders;
 
     public AnswerRecyclerviewAdapter(Context context, List<String> data, TextView users_answer){
