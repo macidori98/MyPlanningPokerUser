@@ -22,6 +22,7 @@ import com.example.myplanningpokeruser.Adapter.AnswerRecyclerviewAdapter;
 import com.example.myplanningpokeruser.Model.Answer;
 import com.example.myplanningpokeruser.R;
 import com.example.myplanningpokeruser.Utils.Constant;
+import com.example.myplanningpokeruser.Utils.FragmentNavigation;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -138,7 +139,8 @@ public class AnswerFragment extends Fragment {
                                         mRef.child(KEY).setValue(answer1);
 
                                         Toast.makeText(getContext(), R.string.answer_sent, Toast.LENGTH_SHORT).show();
-                                        getActivity().onBackPressed();
+                                        FragmentNavigation.getInstance(getContext()).replaceFragment(new AnswerListFragment(), R.id.fragment_content);
+                                        //getActivity().onBackPressed();
                                     } else {
                                         countDownTimer.cancel();
                                         Toast.makeText(getContext(), R.string.answer_not_sent, Toast.LENGTH_SHORT).show();

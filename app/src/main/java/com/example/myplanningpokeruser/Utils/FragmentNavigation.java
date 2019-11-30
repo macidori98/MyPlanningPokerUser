@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.myplanningpokeruser.Fragment.AnswerFragment;
+import com.example.myplanningpokeruser.Fragment.AnswerListFragment;
 import com.example.myplanningpokeruser.Fragment.HomePageFragment;
 import com.example.myplanningpokeruser.Fragment.LoginFragment;
 import com.example.myplanningpokeruser.MainActivity;
@@ -83,6 +84,12 @@ public class FragmentNavigation {
         }
 
         if( getCurrentFragment(mMainActivityFragmentContainer) instanceof AnswerFragment) {
+            popBackstack();
+            return;
+        }
+
+        if( getCurrentFragment(mMainActivityFragmentContainer) instanceof AnswerListFragment) {
+            popBackstack();
             popBackstack();
             return;
         }

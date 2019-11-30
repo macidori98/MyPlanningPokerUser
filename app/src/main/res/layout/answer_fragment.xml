@@ -16,6 +16,7 @@
     <TextView
         android:id="@+id/textView_answer_question"
         android:textColor="@color/text"
+        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/dp15"

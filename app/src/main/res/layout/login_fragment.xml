@@ -10,6 +10,7 @@
     <TextView
         android:id="@+id/textView_login_app_name"
         android:layout_width="wrap_content"
+        android:textStyle="bold"
         android:layout_height="wrap_content"
         android:layout_marginTop="124dp"
         android:text="@string/login_textView_app_name"

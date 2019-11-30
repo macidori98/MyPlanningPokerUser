@@ -5,6 +5,7 @@ import com.example.myplanningpokeruser.Model.Questions;
 import com.example.myplanningpokeruser.Model.User;
 
 public class Constant {
+    public static final String USERS = "users";
     public static User CURRENT_USER;
     public static final String ADMIN_NAMES = "admin_names";
     public static final String GROUPS = "groups";
