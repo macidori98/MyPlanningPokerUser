@@ -132,7 +132,7 @@ public class LoginFragment extends Fragment {
                     }
                 }
                 if (!found) {
-                    Toast.makeText(getContext(), R.string.fail, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.group_not_found, Toast.LENGTH_SHORT).show();
                 }
             }
 

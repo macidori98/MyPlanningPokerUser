@@ -9,6 +9,7 @@
 
     <string name="success">Success</string>
     <string name="fail">Fail</string>
+    <string name="group_not_found">Group not found</string>
     <string name="name_fail">You have to enter at least 4 characters</string>
 
     <string name="add_group_id">Enter group ID</string>
